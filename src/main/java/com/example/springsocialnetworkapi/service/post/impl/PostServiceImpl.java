@@ -27,7 +27,6 @@ public class PostServiceImpl implements IPostService {
         } else {
             postEntity = postConverter.toEntity(postDto);
         }
-
         postEntity = postRepository.save(postEntity);
         return postConverter.toDto(postEntity);
     }

@@ -35,12 +35,8 @@ public class UserEntity extends BaseEntity {
     private List<RoleEntity> roles = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private PostEntity postLike;
+    private PostEntity postLiked;
 
-    @OneToMany(mappedBy = "userPost")
-    private List<PostEntity> post = new ArrayList<>();
-    @OneToMany(mappedBy = "userComment")
-    private List<CommentEntity> comments = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -106,12 +102,12 @@ public class UserEntity extends BaseEntity {
         this.enabled = enabled;
     }
 
-    public PostEntity getPostLike() {
-        return postLike;
+    public PostEntity getPostLiked() {
+        return postLiked;
     }
 
-    public void setPostLike(PostEntity postLike) {
-        this.postLike = postLike;
+    public void setPostLiked(PostEntity postLiked) {
+        this.postLiked = postLiked;
     }
 
     public List<RoleEntity> getRoles() {
@@ -122,19 +118,4 @@ public class UserEntity extends BaseEntity {
         this.roles = roles;
     }
 
-    public List<PostEntity> getPost() {
-        return post;
-    }
-
-    public void setPost(List<PostEntity> post) {
-        this.post = post;
-    }
-
-    public List<CommentEntity> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentEntity> comments) {
-        this.comments = comments;
-    }
 }

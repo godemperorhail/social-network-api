@@ -13,9 +13,7 @@ public class CommentEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private PostEntity post;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userComment;
+
 
     public String getText() {
         return text;
@@ -41,11 +39,5 @@ public class CommentEntity extends BaseEntity {
         this.post = post;
     }
 
-    public UserEntity getUserComment() {
-        return userComment;
-    }
 
-    public void setUserComment(UserEntity userComment) {
-        this.userComment = userComment;
-    }
 }

@@ -12,14 +12,12 @@ public class PostEntity extends BaseEntity {
     private String content;
     @Column(name = "THUMBNAIL")
     private String thumbnail;
-    @OneToMany(mappedBy = "postLike")
+    @OneToMany(mappedBy = "postLiked")
     private List<UserEntity> userLikePost = new ArrayList<>();
 
     @Column(name = "LIKE_POST")
-    private int postLike=userLikePost.size();
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userPost;
+    private int postLike = userLikePost.size();
+
     @OneToMany(mappedBy = "post")
     private List<CommentEntity> comments = new ArrayList<>();
 
@@ -55,13 +53,6 @@ public class PostEntity extends BaseEntity {
         this.postLike = postLike;
     }
 
-    public UserEntity getUserPost() {
-        return userPost;
-    }
-
-    public void setUserPost(UserEntity userPost) {
-        this.userPost = userPost;
-    }
 
     public List<CommentEntity> getComments() {
         return comments;
