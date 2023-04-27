@@ -25,7 +25,7 @@ public class SignUpConverter {
 
         SignUpDto dto = new SignUpDto();
 
-        if (userEntity.getId()!=null){
+        if (userEntity.getId() != null) {
             dto.setId(userEntity.getId());
         }
 

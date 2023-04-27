@@ -18,14 +18,14 @@ public class EditUserConverter {
         userEntity.setLastName(editProfileDto.getLastName());
         userEntity.setEmail(editProfileDto.getEmail());
         userEntity.setBio(editProfileDto.getBio());
-        userEntity.setUserImage(editProfileDto.getImage());
+        userEntity.setAvatar(editProfileDto.getImage());
         return userEntity;
     }
 
     public EditProfileDto toDto(UserEntity userEntity) {
         EditProfileDto editProfileDto = new EditProfileDto();
 
-        if (userEntity.getId()!=null){
+        if (userEntity.getId() != null) {
             editProfileDto.setId(userEntity.getId());
         }
         editProfileDto.setCreatedBy(userEntity.getCreatedBy());
@@ -38,7 +38,7 @@ public class EditUserConverter {
         editProfileDto.setLastName(userEntity.getLastName());
         editProfileDto.setEmail(userEntity.getEmail());
         editProfileDto.setBio(userEntity.getBio());
-        editProfileDto.setImage(userEntity.getUserImage());
+        editProfileDto.setImage(userEntity.getAvatar());
         return editProfileDto;
     }
 

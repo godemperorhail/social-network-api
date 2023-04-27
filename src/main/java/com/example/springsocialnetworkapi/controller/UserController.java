@@ -70,12 +70,13 @@ public class UserController {
         return new RandomStuff("JWT Hợp lệ mới có thể thấy được message này");
     }
 
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/update/{id}")
     public EditProfileDto editUser(@Valid @RequestBody EditProfileDto model, @PathVariable("id") long id) {
         model.setId(id);
         return userService.editUser(model);
     }
-    @PutMapping("/resetPassword/{id}")
+
+    @PutMapping("/reset/{id}")
     public ForgotPasswordDto updatePassword(@Valid @RequestBody ForgotPasswordDto model, @PathVariable("id") long id) {
         model.setId(id);
         return userService.updatePassword(model);

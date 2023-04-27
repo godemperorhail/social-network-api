@@ -17,7 +17,7 @@ public class ForgotPasswordConverter {
     }
 
     public ForgotPasswordDto toDto(UserEntity userEntity) {
-        ForgotPasswordDto forgotPasswordDto=new ForgotPasswordDto();
+        ForgotPasswordDto forgotPasswordDto = new ForgotPasswordDto();
         forgotPasswordDto.setUsername(userEntity.getUsername());
         forgotPasswordDto.setPassword(passwordEncoder.encode(userEntity.getEncrytedPassword()));
         return forgotPasswordDto;

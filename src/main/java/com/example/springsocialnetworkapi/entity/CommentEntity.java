@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "Tbl_comment")
 public class CommentEntity extends BaseEntity {
     @Column(name = "TEXT_COMMENT")
-    private String text;
+    private String textComment;
     @Column(name = "IMAGE_COMMENT")
     private String imageComment;
     @ManyToOne
@@ -15,12 +15,12 @@ public class CommentEntity extends BaseEntity {
     private PostEntity post;
 
 
-    public String getText() {
-        return text;
+    public String getTextComment() {
+        return textComment;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTextComment(String textComment) {
+        this.textComment = textComment;
     }
 
     public String getImageComment() {

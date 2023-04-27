@@ -7,7 +7,12 @@ import com.example.springsocialnetworkapi.repository.PostRepository;
 import com.example.springsocialnetworkapi.repository.UserRepository;
 import com.example.springsocialnetworkapi.service.post.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -37,4 +42,17 @@ public class PostServiceImpl implements IPostService {
             postRepository.deleteById(item);
         }
     }
+
+    @Override
+    public List<PostDto> getListPost() {
+        List<PostDto> result = new ArrayList<>();
+        List<PostEntity> posts = postRepository.findAll();
+        for (PostEntity item : posts) {
+            PostDto postDto = postConverter.toDto(item);
+            result.add(postDto);
+        }
+        return result;
+    }
+
+
 }

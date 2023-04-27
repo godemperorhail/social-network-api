@@ -24,7 +24,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "BIO_USER", length = 256)
     private String bio;
     @Column(name = "IMAGE_USER")
-    private String userImage;
+    private String avatar;
     @Column(name = "Enabled", length = 1, nullable = false)
     private boolean enabled;
 
@@ -86,12 +86,12 @@ public class UserEntity extends BaseEntity {
         this.bio = bio;
     }
 
-    public String getUserImage() {
-        return userImage;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public boolean isEnabled() {
