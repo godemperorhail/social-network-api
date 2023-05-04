@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -54,14 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
         http
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/signup").permitAll(); // Cho phép tất cả mọi người truy cập vào địa chỉ này
-
-
+                .antMatchers("/user/login", "/user/signup")
+                .permitAll(); // Cho phép tất cả mọi người truy cập vào địa chỉ này
         http
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
-
         // Thêm một lớp Filter kiểm tra jwt
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
