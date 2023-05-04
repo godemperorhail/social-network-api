@@ -1,18 +1,19 @@
 package com.example.springsocialnetworkapi.controller;
 
-import com.example.springsocialnetworkapi.custom.CustomUserDetails;
 import com.example.springsocialnetworkapi.dto.*;
 import com.example.springsocialnetworkapi.dto.user.*;
-import com.example.springsocialnetworkapi.jwt.JwtTokenProvider;
+import com.example.springsocialnetworkapi.jwt.JwtTokenUtil;
 import com.example.springsocialnetworkapi.repository.UserRepository;
 import com.example.springsocialnetworkapi.service.user.IUserService;
+import com.example.springsocialnetworkapi.service.user.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,12 +24,13 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private IUserService userService;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpDto) {
@@ -45,23 +47,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public LoginResponse LoginUser(@Valid @RequestBody LoginDto loginRequest) {
+    public ResponseEntity<?> LoginUser(@Valid @RequestBody LoginDto loginRequest) throws Exception {
+        authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        final UserDetails userDetails = userDetailsServiceImpl
+                .loadUserByUsername(loginRequest.getUsername());
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
 
-        // Xác thực từ username và password.
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        // Nếu không xảy ra exception tức là thông tin hợp lệ
-        // Set thông tin authentication vào Security Context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Trả về jwt cho người dùng.
-        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-        return new LoginResponse(jwt);
     }
 
     // random yêu cầu phải xác thực mới có thể request
@@ -81,5 +73,13 @@ public class UserController {
         model.setId(id);
         return userService.updatePassword(model);
     }
-
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
 }

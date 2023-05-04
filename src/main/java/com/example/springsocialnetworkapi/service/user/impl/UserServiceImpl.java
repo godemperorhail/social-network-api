@@ -57,12 +57,13 @@ public class UserServiceImpl implements IUserService {
     public ForgotPasswordDto updatePassword(ForgotPasswordDto forgotPasswordDto) {
         UserEntity users=new UserEntity();
         if (forgotPasswordDto.getEmail()!=null){
-            UserEntity insertUser=userRepository.findByUsername(forgotPasswordDto.getUsername()).get();
+            UserEntity insertUser=userRepository.findByUsername(forgotPasswordDto.getUsername());
             users= forgotPasswordConverter.toEntity(forgotPasswordDto,insertUser);
         }
         users=userRepository.save(users);
 
         return forgotPasswordConverter.toDto(users);
     }
+
 
 }
