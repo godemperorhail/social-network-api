@@ -12,9 +12,11 @@ public class PostEntity extends BaseEntity {
     private String content;
     @Column(name = "THUMBNAIL")
     private String thumbnail;
-    @OneToMany(mappedBy = "postLiked")
+    @ManyToMany
+    @JoinTable(name = "post_user",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<UserEntity> userLikePost = new ArrayList<>();
-
     @Column(name = "LIKE_POST")
     private int postLike = userLikePost.size();
 

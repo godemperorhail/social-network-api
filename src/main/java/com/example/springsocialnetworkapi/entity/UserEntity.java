@@ -33,10 +33,9 @@ public class UserEntity extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private PostEntity postLiked;
 
+    @ManyToMany(mappedBy = "userLikePost")
+    private List<PostEntity> postLiked = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -102,11 +101,12 @@ public class UserEntity extends BaseEntity {
         this.enabled = enabled;
     }
 
-    public PostEntity getPostLiked() {
+
+    public List<PostEntity> getPostLiked() {
         return postLiked;
     }
 
-    public void setPostLiked(PostEntity postLiked) {
+    public void setPostLiked(List<PostEntity> postLiked) {
         this.postLiked = postLiked;
     }
 
